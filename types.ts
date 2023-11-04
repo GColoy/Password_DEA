@@ -2,9 +2,10 @@ export interface node {
   setIndex: number,
   charIndex: number,
   name: string,
-  sets: Boolean[],
+  sets: boolean[],
   charNumber: number,
-  nextNodes: string[]
+  nextNodes: string[],
+  finalState: boolean
 }
 
 export const sets = [

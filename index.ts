@@ -9,7 +9,8 @@ function createTree() {
     sets: [false, false, false],
     charNumber: 0,
     nextNodes: [],
-    name: "start"
+    name: "start",
+    finalState: false
   };
 
   Nodes.push(startNode);
@@ -46,7 +47,8 @@ function getNextNodes(node: node) {
           name: "",
           sets: [],
           charNumber: 0,
-          nextNodes: []
+          nextNodes: [],
+          finalState: false
         }
         Object.assign(newNode.sets, node.sets)
         newNode.charIndex = charIndex
@@ -54,6 +56,7 @@ function getNextNodes(node: node) {
         newNode.charNumber = (node.charNumber + 1) < 8 ? node.charNumber + 1 : 8
         newNode.sets[setIndex] = true
         newNode.name = NodeToString(newNode)
+        newNode.finalState = isFinalState(newNode)
         return newNode
       })
       .filter((_, charIndex)  => !(
@@ -61,6 +64,11 @@ function getNextNodes(node: node) {
         Math.abs(node.charIndex - charIndex) == 1
       ))
   });
+}
+
+function isFinalState(newNode: node): boolean {
+  return newNode.sets.every(value => value) &&
+    newNode.charNumber >= 8;
 }
 
 function replaceEquivalentEntriesFromSource<T>(target: T[], source: T[], equivalentsCheck: (target: T, source: T) => boolean) {
